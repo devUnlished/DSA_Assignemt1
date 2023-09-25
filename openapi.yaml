@@ -1,0 +1,156 @@
+openapi: 3.0.0
+info:
+  title: Staff Manager API
+  description: This API provides the user with services that allows to manage the staff members informations.
+  version: 0.1.9
+servers:
+  - url: http://localhost:9090/FCIStaff
+    description: University Staff Management Server
+  
+paths:
+  
+  /getAllLecturers:
+    get:
+      summary: Returns a list of all  the lecturers.
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                $ref: '#components/schemas/Lecturer'
+
+  /getLecturerByStaffNo/{staffNo}:
+    get:
+      summary: Uses staffNo as an id to get a lecturer.
+      parameters:
+        - name: staffNo
+          in: path
+          required: true
+          description: The staff number of the lecturer to return.
+          schema:
+            type: string
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: A string of representing a lecturers name
+          content:
+            application/json:
+              schema: 
+                $ref: '#components/schemas/Lecturer'
+
+  /getLecturerByOfficeNo/{officeNo}:
+    get:
+      summary: Uses staffNo as an id to get lecturers.
+      parameters:
+        - name: officeNo
+          in: path
+          required: true
+          description: The staff number of the lecturer to return.
+          schema:
+            type: string
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: A string of representing a lecturers name
+          content:
+            application/json:
+              schema: 
+                $ref: '#components/schemas/Lecturer'
+
+
+  /addLecturer:
+    post:
+      summary: adds a new lecturer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+               $ref: '#components/schemas/Lecturer'
+      responses: 
+        '201':
+          description: Created
+
+  /updateLecturer/{staffNo}:
+    put:
+      summary: Edits the details of a lecturer selected using his staff number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+               $ref: '#components/schemas/Lecturer'
+      responses: 
+        '201':
+          description: Updated
+
+  /deleteLecturer/{staffNo}:
+    delete:
+      summary: Permanently deletes a lecturer from the list.
+      responses:
+        '200':    # status code
+          description: confirms deletion of s value
+          content:
+            application/json:
+              schema: 
+                $ref: '#components/schemas/Lecturer'
+
+
+
+
+
+components:
+      schemas:
+#Lecturer object
+        Lecturer:
+          type: object
+          properties:
+              staffNo:
+                  type: string
+              officeNo:
+                  type: string
+              name:
+                  type: string
+              title:
+                  type: string
+              courses:
+                  type: string
+          required:  
+            - staffNo
+            - officeNo
+            - name
+            - title
+            - courses
+
+#office object            
+        Office:
+          type: object
+          properties:
+            officeNo:
+                  type: string
+            name:
+                  type: string
+
+
+        LecturerPart:
+          type: object
+          properties:
+              officeNo:
+                  type: string
+              name:
+                  type: string
+              title:
+                  type: string
+              courses:
+                  type: string
+          required:  
+            - officeNo
+            - name
+            - title
+            - courses
+
+        ErrorMessage:
+          properties:
+            errorMessage: 
+              type: string
